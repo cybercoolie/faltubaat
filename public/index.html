@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaltuBaat</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">💬 FaltuBaat</div>
+        <div class="nav-links">
+            <a href="javascript:void(0)" class="nav-link active" onclick="showSection('home'); closeMobileMenu(); return false;">Home</a>
+            <a href="javascript:void(0)" class="nav-link" onclick="showSection('login'); closeMobileMenu(); return false;">Login</a>
+            <a href="javascript:void(0)" class="nav-link" onclick="showSection('live'); closeMobileMenu(); return false;">Live</a>
+        </div>
+        <button class="hamburger" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Home Section -->
+    <div id="home" class="section active">
+        <div class="container">
+            <div class="hero">
+                <h1>Welcome to FaltuBaat</h1>
+                <p>Connect, Chat, and Stream with people worldwide in real-time</p>
+                <a href="#" class="cta-button" onclick="showSection('login')">Get Started</a>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Real-time Messaging</h3>
+                    <p>Send instant messages to friends with lightning-fast delivery. Enjoy seamless conversations with read receipts and typing indicators for the ultimate chat experience.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📹</div>
+                    <h3>Video Calling</h3>
+                    <p>Make high-quality one-to-one video calls with crystal clear audio and video. Perfect for personal conversations and meetings.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📺</div>
+                    <h3>Live Streaming</h3>
+                    <p>Go live and broadcast to multiple viewers simultaneously. Share your moments, host events, or just have fun with friends.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Stream Discovery</h3>
+                    <p>Explore live streams from creators around the world. Discover new content, interact with streamers, and become part of exciting live experiences.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Smart Notifications</h3>
+                    <p>Stay connected with instant alerts for new messages, video calls, and live streams. Customize your notification preferences for the perfect balance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Cross-Platform</h3>
+                    <p>Access from any device with a web browser. No downloads required - just open and start chatting instantly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login" class="section">
+        <div class="container">
+            <div class="login-container">
+                <div class="login-card">
+                    <h2>Welcome to FaltuBaat</h2>
+                    <p>Connect with amazing people and start chatting!</p>
+                    
+                    <!-- Auth Tabs -->
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+                        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+                    </div>
+                    
+                    <!-- Sign In Form -->
+                    <form id="signinForm" class="auth-form active" onsubmit="handleSignIn(event)">
+                        <div class="form-group">
+                            <label for="signinUsername">Username</label>
+                            <input type="text" id="signinUsername" name="username" required 
+                                   placeholder="Enter your username" autocomplete="username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signinPassword">Password</label>
+                            <input type="password" id="signinPassword" name="password" required 
+                                   placeholder="Enter your password" autocomplete="current-password">
+                        </div>
+                        
+                        <div id="signinError" class="auth-error" style="display: none;"></div>
+                        
+                        <button type="submit" class="login-btn">Sign In</button>
+                    </form>
+                    
+                    <!-- Sign Up Form -->
+                    <form id="signupForm" class="auth-form" onsubmit="handleSignUp(event)" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="signupFirstName">First Name</label>
+                                <input type="text" id="signupFirstName" name="firstName" 
+                                       placeholder="First name" maxlength="50" autocomplete="given-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="signupLastName">Last Name</label>
+                                <input type="text" id="signupLastName" name="lastName" 
+                                       placeholder="Last name" maxlength="50" autocomplete="family-name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signupUsername">Username <span style="color: #e74c3c;">*</span></label>
+                            <input type="text" id="signupUsername" name="username" required 
+                                   placeholder="Choose a unique username (3-20 chars)" 
+                                   pattern="[a-zA-Z0-9_]{3,20}" autocomplete="username"
+                                   oninput="checkUsernameAvailability(this.value, 'signupUsernameStatus')">
+                            <small>Must be unique. Letters, numbers, and underscores only (case-insensitive)</small>
+                            <div id="signupUsernameStatus" style="margin-top: 5px; font-size: 0.9rem;"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" name="password" required 
+                                   placeholder="Choose a password (min 6 chars)" 
+                                   minlength="6" autocomplete="new-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" name="confirmPassword" required 
+                                   placeholder="Confirm your password" autocomplete="new-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signupGender">Gender</label>
+                            <select id="signupGender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signupAbout">About You (optional)</label>
+                            <textarea id="signupAbout" name="about" 
+                                      placeholder="Tell us a bit about yourself..." 
+                                      maxlength="500" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group" style="text-align: left;">
+                            <input type="checkbox" id="acceptTerms" required style="margin-right: 8px;">
+                            <label for="acceptTerms" style="font-size: 0.9rem; cursor: pointer;">
+                                I accept the <a href="javascript:void(0)" onclick="showSection('terms')" style="color: #3498db; text-decoration: underline;">Terms of Service</a>
+                            </label>
+                        </div>
+                        
+                        <div id="signupError" class="auth-error" style="display: none;"></div>
+                        
+                        <button type="submit" class="login-btn">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Home Section -->
+    <div id="userHome" class="section user-home-section">
+        <!-- User Navigation -->
+        <nav class="user-navbar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <span>☰</span>
+            </button>
+            <div class="user-logo">💬 FaltuBaat</div>
+            <div class="user-info">
+                <span id="userDisplayName">Welcome!</span>
+                <span id="userFullName" style="margin-left: 5px;"></span>
+            </div>
+            <div class="user-nav-links">
+                <a href="javascript:void(0)" class="user-nav-link active" onclick="window.showUserSection('dashboard'); closeMobileMenu(); return false;">Home</a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="window.showUserSection('messages'); closeMobileMenu(); return false;">
+                    Messages
+                    <span id="userMessageCount" class="message-count" style="display: none;">0</span>
+                </a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="logout(); closeMobileMenu(); return false;">Logout</a>
+            </div>
+            <button class="hamburger" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="user-section active">
+            <div class="facebook-layout" style="grid-template-columns: 280px 1fr;">
+                <!-- Left Sidebar -->
+                <div class="left-sidebar">
+                    <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close sidebar">&times;</button>
+                    <div class="user-profile">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                            <h3 id="profileFirstName">First Name</h3>
+                            <p id="profileUsername" style="opacity: 0.7; font-size: 0.9rem;">@username</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-menu">
+                        <div class="menu-item" onclick="window.showUserSection('messages'); closeSidebar();">
+                            <span class="menu-icon">💬</span>
+                            <span class="menu-text">Messages</span>
+                        </div>
+                        <div class="menu-item" onclick="window.showUserSection('friends'); closeSidebar();">
+                            <span class="menu-icon">🟢</span>
+                            <span class="menu-text">Online Now</span>
+                        </div>
+                        <div class="menu-item" id="goLiveButton" onclick="startLiveStream(); closeSidebar();">
+                            <span class="menu-icon">📺</span>
+                            <span class="menu-text">Go Live</span>
+                        </div>
+                        <div class="menu-item" id="broadcastStatus">
+                            <span class="menu-icon">✅</span>
+                            <span class="menu-text" id="broadcastStatusText">0/10 streams</span>
+                        </div>
+                        <div class="menu-item" onclick="window.showUserSection('settings'); closeSidebar();">
+                            <span class="menu-icon">⚙️</span>
+                            <span class="menu-text">Settings</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content">
+                    <div class="live-streams-section">
+                        <h3>🔴 Live Now <span id="liveStreamCount" style="font-size: 0.8rem; opacity: 0.7;"></span></h3>
+                        <div id="dashboardLiveStreams" class="live-streams-grid">
+                            <div class="no-streams-msg">No live streams at the moment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Friends Section -->
+        <div id="friends" class="user-section">
+            <div style="display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 80px); gap: 1rem; padding: 1rem;">
+                <!-- Left Sidebar -->
+                <div class="left-sidebar">
+                    <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close sidebar">&times;</button>
+                    <div class="user-profile">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                            <h3 id="friendsProfileFirstName">First Name</h3>
+                            <p id="friendsProfileUsername" style="opacity: 0.7; font-size: 0.9rem;">@username</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-menu">
+                        <div class="menu-item" onclick="window.showUserSection('messages'); closeSidebar();">
+                            <span class="menu-icon">💬</span>
+                            <span class="menu-text">Messages</span>
+                        </div>
+                        <div class="menu-item" onclick="window.showUserSection('friends'); closeSidebar();" style="background: rgba(255,255,255,0.1);">
+                            <span class="menu-icon">🟢</span>
+                            <span class="menu-text">Online Now</span>
+                        </div>
+                        <div class="menu-item" id="goLiveButton2" onclick="startLiveStream(); closeSidebar();">
+                            <span class="menu-icon">📺</span>
+                            <span class="menu-text">Go Live</span>
+                        </div>
+                        <div class="menu-item" id="broadcastStatus2">
+                            <span class="menu-icon">✅</span>
+                            <span class="menu-text" id="broadcastStatusText2">0/10 streams</span>
+                        </div>
+                        <div class="menu-item" onclick="window.showUserSection('settings'); closeSidebar();">
+                            <span class="menu-icon">⚙️</span>
+                            <span class="menu-text">Settings</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content">
+                    <h2 style="margin-bottom: 2rem;">🟢 Online Now</h2>
+                    <div id="friendsPageList" class="friends-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+                        <div class="no-friends" style="text-align: center; opacity: 0.7; padding: 2rem; grid-column: 1 / -1;">No friends online</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Section -->
+        <div id="messages" class="user-section">
+            <div class="inbox-layout">
+                <div class="inbox-sidebar">
+                    <div class="inbox-header">
+                        <h3>💬 Messages</h3>
+                    </div>
+                    <div id="conversationsList" class="conversations-list">
+                        <div class="no-conversations">No conversations yet</div>
+                    </div>
+                </div>
+                
+                <div class="inbox-main">
+                    <div id="conversationView" class="conversation-view">
+                        <div class="no-conversation-selected">
+                            <h3>Select a conversation</h3>
+                            <p>Choose a conversation from the sidebar to start chatting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="user-section" style="height: calc(100vh - 80px); overflow-y: auto;">
+            <div class="settings-container" style="max-width: 600px; margin: 2rem auto; padding: 2rem; padding-bottom: 4rem;">
+                <h2 style="color: #2c3e50; margin-bottom: 2rem; text-align: center;">⚙️ Account Settings</h2>
+                
+                <!-- Update Profile -->
+                <div class="settings-card" style="background: white; border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">👤 Update Profile</h3>
+                    <form onsubmit="updateProfile(event)">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; color: #666;">First Name</label>
+                                <input type="text" id="settingsFirstName" placeholder="First name" maxlength="50"
+                                       style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; color: #666;">Last Name</label>
+                                <input type="text" id="settingsLastName" placeholder="Last name" maxlength="50"
+                                       style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">About</label>
+                            <textarea id="settingsAbout" placeholder="Tell us about yourself..." maxlength="500" rows="3"
+                                      style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                        </div>
+                        <div id="profileUpdateError" style="color: #e74c3c; margin-bottom: 1rem; display: none;"></div>
+                        <div id="profileUpdateSuccess" style="color: #27ae60; margin-bottom: 1rem; display: none;"></div>
+                        <button type="submit" style="background: #27ae60; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+                            Save Profile
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Change Username -->
+                <div class="settings-card" style="background: white; border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">📝 Change Username</h3>
+                    <form onsubmit="changeUsername(event)">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">New Username</label>
+                            <input type="text" id="newUsername" placeholder="Enter a unique username" 
+                                   pattern="[a-zA-Z0-9_]{3,20}" required
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;"
+                                   oninput="checkUsernameAvailability(this.value, 'settingsUsernameStatus')">
+                            <small style="color: #888;">Must be unique. 3-20 characters, letters, numbers, underscores only (case-insensitive)</small>
+                            <div id="settingsUsernameStatus" style="margin-top: 5px; font-size: 0.9rem;"></div>
+                        </div>
+                        <div id="usernameChangeError" style="color: #e74c3c; margin-bottom: 1rem; display: none;"></div>
+                        <div id="usernameChangeSuccess" style="color: #27ae60; margin-bottom: 1rem; display: none;"></div>
+                        <button type="submit" style="background: #3498db; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+                            Update Username
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Change Password -->
+                <div class="settings-card" style="background: white; border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">🔐 Change Password</h3>
+                    <form onsubmit="changePassword(event)">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">Current Password</label>
+                            <input type="password" id="currentPassword" placeholder="Enter current password" required
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">New Password</label>
+                            <input type="password" id="newPassword" placeholder="Enter new password" minlength="6" required
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" placeholder="Confirm new password" minlength="6" required
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div id="passwordChangeError" style="color: #e74c3c; margin-bottom: 1rem; display: none;"></div>
+                        <div id="passwordChangeSuccess" style="color: #27ae60; margin-bottom: 1rem; display: none;"></div>
+                        <button type="submit" style="background: #9b59b6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+                            Update Password
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Delete Account -->
+                <div class="settings-card" style="background: #fff5f5; border: 2px solid #e74c3c; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #e74c3c; margin-bottom: 1rem;">⚠️ Delete Account</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">This action is permanent and cannot be undone. All your data will be deleted.</p>
+                    <form onsubmit="deleteAccount(event)">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #666;">Enter your password to confirm</label>
+                            <input type="password" id="deleteConfirmPassword" placeholder="Enter password" required
+                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: flex; align-items: center; cursor: pointer; color: #666;">
+                                <input type="checkbox" id="deleteConfirmCheck" required style="margin-right: 8px;">
+                                I understand this action is permanent
+                            </label>
+                        </div>
+                        <div id="deleteAccountError" style="color: #e74c3c; margin-bottom: 1rem; display: none;"></div>
+                        <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+                            Delete My Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Section (Legacy) -->
+    <div id="chat" class="section">
+        <!-- Login Form -->
+        <div id="oldLoginForm" class="login-form">
+            <h2>Join Chat</h2>
+            <input type="text" id="usernameInput" placeholder="Enter your username" />
+            <button onclick="joinChat()">Join</button>
+        </div>
+
+        <!-- Main Chat Interface -->
+        <div id="oldChatInterface" class="chat-container hidden">
+            <div class="sidebar">
+                <div style="background: #34495e; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                    <strong id="oldCurrentUserName">Your Name</strong>
+                    <div style="font-size: 10px; opacity: 0.7;">Online</div>
+                </div>
+                
+                <h3>Online Users</h3>
+                <div id="oldUserList" class="user-list"></div>
+                
+                <h3>Group Chats</h3>
+                <div class="group-list">
+                    <div class="group-item" onclick="joinGroup('general')">General</div>
+                    <div class="group-item" onclick="joinGroup('tech')">Tech Talk</div>
+                    <div class="group-item" onclick="joinGroup('random')">Random</div>
+                </div>
+                
+                <h3>Live Streams</h3>
+                <div id="oldLiveStreamsList" class="live-streams-list">
+                    <div class="no-streams" style="text-align: center; opacity: 0.7; padding: 1rem; font-size: 0.9rem;">
+                        No live streams
+                    </div>
+                </div>
+                
+                <div class="sidebar-buttons">
+                    <button onclick="startVideoCall()" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Video Call</button>
+                    <button onclick="startLiveStream()" style="width: 100%; padding: 10px; margin-bottom: 15px; background: #9b59b6; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Live Stream</button>
+                    
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="oldNotificationToggle" checked onchange="toggleNotifications()" style="margin-right: 8px;">
+                        <span style="font-size: 12px;">Enable Notifications</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="main-chat">
+                <div id="oldChatHeader" class="chat-header">
+                    <h3>Select a user or group to start chatting</h3>
+                </div>
+                
+                <div id="messages" class="messages"></div>
+                
+                <div class="input-area">
+                    <input type="text" id="oldMessageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)" />
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Section -->
+    <div id="live" class="section">
+        <div class="container">
+            <div class="hero">
+                <h1>🔴 Live Streaming</h1>
+                <p>Broadcast your moments to the world</p>
+            </div>
+            
+            <div style="text-align: center; color: #2c3e50; margin: 2rem 0;">
+                <h2>Go Live Now!</h2>
+                <p style="margin: 1rem 0;">To start streaming, go to the Chat section and click "Start Live Stream"</p>
+                <a href="#" class="cta-button" onclick="showSection('login')">Join Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Section -->
+    <div id="terms" class="section">
+        <div class="container">
+            <div style="color: #2c3e50; max-width: 800px; margin: 0 auto; padding: 2rem 0;">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Terms of Service</h1>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Acceptance of Terms</h2>
+                    <p>By using FaltuBaat, you agree to these terms. If you don't agree, please don't use our service.</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Service Description</h2>
+                    <p>FaltuBaat provides real-time messaging, video calling, and live streaming services. The service is provided "as is" without warranties.</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>User Conduct</h2>
+                    <p>You agree to:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Use the service respectfully and lawfully</li>
+                        <li>Not share inappropriate or harmful content</li>
+                        <li>Respect other users' privacy and rights</li>
+                        <li>Not attempt to hack or disrupt the service</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Limitation of Liability</h2>
+                    <p>FaltuBaat is not liable for any damages arising from use of the service. Use at your own risk.</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Changes to Terms</h2>
+                    <p>We may update these terms at any time. Continued use means acceptance of new terms.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Last updated: December 2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Section -->
+    <div id="privacy" class="section">
+        <div class="container">
+            <div style="color: #2c3e50; max-width: 800px; margin: 0 auto; padding: 2rem 0;">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Privacy Policy</h1>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Information We Collect</h2>
+                    <p>We collect minimal information to provide our services:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Name and gender for user identification</li>
+                        <li>Messages sent through our platform</li>
+                        <li>Video/audio streams during live sessions</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>How We Use Your Information</h2>
+                    <p>Your information is used solely to:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Enable real-time messaging between users</li>
+                        <li>Facilitate video calls and live streaming</li>
+                        <li>Display your name to other users during conversations</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Data Storage & Security</h2>
+                    <p>We prioritize your privacy:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Messages are not permanently stored on our servers</li>
+                        <li>Video streams are not recorded or saved</li>
+                        <li>All communications are encrypted in transit</li>
+                        <li>No personal data is sold to third parties</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Your Rights</h2>
+                    <p>You have full control over your data:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Disconnect at any time to stop data collection</li>
+                        <li>Your session data is cleared when you leave</li>
+                        <li>No account registration means no permanent data storage</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions about this Privacy Policy, please contact us through our platform.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Last updated: December 2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stream Viewer Section -->
+    <div id="streamViewer" class="section user-home-section">
+        <!-- User Navigation -->
+        <nav class="user-navbar">
+            <div class="user-logo">💬 FaltuBaat</div>
+            <div class="user-info">
+                <span id="streamViewerUserName">Watching Stream</span>
+            </div>
+            <div class="user-nav-links">
+                <a href="javascript:void(0)" class="user-nav-link" onclick="window.showSection('userHome'); closeMobileMenu(); return false;">Home</a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="window.showSection('userHome'); setTimeout(() => window.showUserSection('messages'), 100); closeMobileMenu(); return false;">
+                    Messages
+                    <span id="viewerMessageCount" class="message-count" style="display: none;">0</span>
+                </a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="logout(); closeMobileMenu(); return false;">Logout</a>
+            </div>
+            <button class="hamburger" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        
+        <div class="container" style="height: calc(100vh - 160px); display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-shrink: 0;">
+                <h1 style="color: #2c3e50; margin: 0;">📺 <span id="streamerTitle">Live Stream</span></h1>
+                <div style="display: flex; gap: 1rem;">
+                    <button onclick="sendPrivateMessageToStreamer()" style="background: #9b59b6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">💬 Private Message</button>
+                    <button onclick="window.showSection('userHome')" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">← Back to Home</button>
+                </div>
+            </div>
+            
+            <div class="stream-container" style="flex: 1; display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; min-height: 0;">
+                <div class="stream-video" style="display: flex; flex-direction: column;">
+                    <video id="streamViewerVideo" autoplay style="width: 100%; height: 350px; background: black; border-radius: 10px;"></video>
+                </div>
+                
+                <div class="stream-chat" style="display: flex; flex-direction: column; height: 380px;">
+                    <div class="chat-header" style="background: #3498db; color: white; padding: 15px; border-radius: 10px 10px 0 0; flex-shrink: 0;">
+                        <h3>💬 Stream Chat</h3>
+                    </div>
+                    
+                    <div id="streamMessages" class="messages" style="flex: 1; background: white; padding: 15px; overflow-y: auto; border-radius: 0;"></div>
+                    
+                    <div class="input-area" style="display: flex; padding: 15px; background: #bdc3c7; border-radius: 0 0 10px 10px; flex-shrink: 0;">
+                        <input type="text" id="streamChatInput" placeholder="Type in chat..." style="flex: 1; padding: 10px; border: none; border-radius: 5px;" onkeypress="handleStreamChatKeyPress(event)" />
+                        <button onclick="sendStreamChat()" style="padding: 10px 20px; margin-left: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Streamer Dashboard Section -->
+    <div id="streamerDashboard" class="section user-home-section">
+        <!-- User Navigation -->
+        <nav class="user-navbar">
+            <div class="user-logo">💬 FaltuBaat</div>
+            <div class="user-info">
+                <span id="streamerUserName">Live Streaming</span>
+            </div>
+            <div class="user-nav-links">
+                <a href="javascript:void(0)" class="user-nav-link" onclick="window.showSection('userHome'); closeMobileMenu(); return false;">Home</a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="window.showSection('userHome'); setTimeout(() => window.showUserSection('messages'), 100); closeMobileMenu(); return false;">
+                    Messages
+                    <span id="streamerMessageCount" class="message-count" style="display: none;">0</span>
+                </a>
+                <a href="javascript:void(0)" class="user-nav-link" onclick="logout(); closeMobileMenu(); return false;">Logout</a>
+            </div>
+            <button class="hamburger" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        
+        <div class="container" style="height: calc(100vh - 80px); overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1 style="color: #2c3e50;">🔴 <span id="streamTitle">Your Live Stream</span></h1>
+                <button onclick="stopStreaming()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Stop Stream</button>
+            </div>
+            
+            <div class="stream-container">
+                <div class="stream-video">
+                    <video id="streamerVideo" autoplay muted style="width: 100%; max-width: 800px; height: 450px; background: black; border-radius: 10px;"></video>
+                    
+                    <div class="stream-stats" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 10px; padding: 1rem; margin-top: 1rem; color: white;">
+                        <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <div style="margin-bottom: 0.5rem;"><strong>RTMP Stream URL:</strong></div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 0.5rem; border-radius: 4px; font-family: monospace; word-break: break-all;" id="rtmpUrl">rtmp://YOUR_SERVER:1935/live</div>
+                            <div style="margin: 0.5rem 0;"><strong>Stream Key:</strong> <span style="color: #e74c3c; font-size: 0.8rem;">(Keep this secret!)</span></div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 0.5rem; border-radius: 4px; font-family: monospace; word-break: break-all; position: relative;" id="streamKeyContainer">
+                                <span id="streamKey">Loading...</span>
+                                <button onclick="copyStreamKey()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 0.75rem;">Copy</button>
+                            </div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.7;">Use these settings in OBS Studio to stream. Your key expires if unused for 5 minutes.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stream-chat">
+                    <div class="chat-header" style="background: #3498db; color: white; padding: 15px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                        <h3>💬 Live Chat</h3>
+                        <div style="display: flex; gap: 2rem; font-size: 0.9rem;">
+                            <div style="text-align: center;">
+                                <div style="font-weight: bold;" id="viewerCount">0</div>
+                                <div style="opacity: 0.8;">Viewers</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-weight: bold;" id="streamDuration">00:00</div>
+                                <div style="opacity: 0.8;">Duration</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="streamerMessages" class="messages" style="height: 300px; background: white; padding: 15px; overflow-y: auto; border-radius: 0 0 10px 10px;"></div>
+                    
+                    <div class="input-area" style="display: flex; padding: 15px; background: #bdc3c7; border-radius: 0 0 10px 10px;">
+                        <input type="text" id="streamerChatInput" placeholder="Chat with your viewers..." style="flex: 1; padding: 10px; border: none; border-radius: 5px;" onkeypress="handleStreamerChatKeyPress(event)" />
+                        <button onclick="sendStreamerChat()" style="padding: 10px 20px; margin-left: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Video Container -->
+    <div id="videoContainer" class="video-container">
+        <video id="localVideo" autoplay muted style="width: 50%; height: 100%; float: left;"></video>
+        <video id="remoteVideo" autoplay style="width: 50%; height: 100%; float: right;"></video>
+        <button onclick="endCall()" style="position: absolute; bottom: 10px; right: 10px; background: red; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">End Call</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; text-align: center; padding: 2rem; margin-top: 2rem; box-shadow: 0 -2px 10px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="margin: 0 0 1rem 0;">&copy; 2024 FaltuBaat. All rights reserved.</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <a href="javascript:void(0)" onclick="showSection('privacy')" style="color: white; text-decoration: none; opacity: 0.8;">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="showSection('terms')" style="color: white; text-decoration: none; opacity: 0.8;">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="showSection('home')" style="color: white; text-decoration: none; opacity: 0.8;">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <div class="mobile-overlay" onclick="closeMobileMenu(); closeSidebar();"></div>
+    <script>
+        // Early function declarations for nav links
+        function showSection(sectionName) {
+            if (window.showSection && window.showSection !== showSection) {
+                window.showSection(sectionName);
+            } else {
+                // Fallback: basic section switching
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const target = document.getElementById(sectionName);
+                if (target) target.classList.add('active');
+                
+                // Update nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.textContent.toLowerCase().includes(sectionName.toLowerCase())) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
+        
+        // Username availability check with debounce
+        let usernameCheckTimeout = null;
+        function checkUsernameAvailability(username, statusElementId) {
+            const statusEl = document.getElementById(statusElementId);
+            if (!statusEl) return;
+            
+            // Clear previous timeout
+            if (usernameCheckTimeout) {
+                clearTimeout(usernameCheckTimeout);
+            }
+            
+            // Validate format first
+            const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+            if (!username || username.length < 3) {
+                statusEl.innerHTML = '';
+                return;
+            }
+            
+            if (!usernameRegex.test(username)) {
+                statusEl.innerHTML = '<span style="color: #e74c3c;">❌ Invalid format</span>';
+                return;
+            }
+            
+            // Show checking status
+            statusEl.innerHTML = '<span style="color: #888;">⏳ Checking...</span>';
+            
+            // Debounce the API call (wait 500ms after user stops typing)
+            usernameCheckTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/api/check-username/${encodeURIComponent(username)}`);
+                    const data = await response.json();
+                    
+                    if (data.available) {
+                        statusEl.innerHTML = '<span style="color: #27ae60;">✅ Username available!</span>';
+                    } else {
+                        statusEl.innerHTML = '<span style="color: #e74c3c;">❌ Username already taken</span>';
+                    }
+                } catch (error) {
+                    statusEl.innerHTML = '<span style="color: #888;">Could not check availability</span>';
+                }
+            }, 500);
+        }
+        
+        // Mobile menu functions
+        function toggleMobileMenu(button) {
+            button.classList.toggle('active');
+            const navbar = button.closest('.navbar, .user-navbar');
+            const navLinks = navbar.querySelector('.nav-links, .user-nav-links');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            if (navLinks) {
+                navLinks.classList.toggle('active');
+            }
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
+        }
+        
+        function closeMobileMenu() {
+            const hamburgers = document.querySelectorAll('.hamburger.active');
+            const navLinks = document.querySelectorAll('.nav-links.active, .user-nav-links.active');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            hamburgers.forEach(h => h.classList.remove('active'));
+            navLinks.forEach(n => n.classList.remove('active'));
+            if (overlay) overlay.classList.remove('active');
+        }
+        
+        // Add touch support for mobile menu links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle touch events for nav links
+            document.querySelectorAll('.nav-link, .user-nav-link').forEach(function(link) {
+                link.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.click();
+                }, { passive: false });
+            });
+        });
+        
+        // Toggle sidebar for mobile
+        function toggleSidebar() {
+            const sidebars = document.querySelectorAll('.left-sidebar');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            sidebars.forEach(sidebar => {
+                sidebar.classList.toggle('mobile-open');
+            });
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
+        }
+        
+        // Close sidebar when clicking overlay
+        function closeSidebar() {
+            const sidebars = document.querySelectorAll('.left-sidebar.mobile-open');
+            sidebars.forEach(sidebar => {
+                sidebar.classList.remove('mobile-open');
+            });
+        }
+        
+        // Close menu on resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // ============================================
+        // BROADCAST STATUS & STREAM KEY FUNCTIONS
+        // ============================================
+        
+        // Update broadcast status indicator
+        async function updateBroadcastStatus() {
+            try {
+                const response = await fetch('/api/broadcast-status');
+                const status = await response.json();
+                
+                // Update all broadcast status elements (both sidebars)
+                const statusTexts = ['broadcastStatusText', 'broadcastStatusText2'];
+                
+                statusTexts.forEach(id => {
+                    const statusText = document.getElementById(id);
+                    if (statusText) {
+                        if (status.available) {
+                            statusText.textContent = `${status.activeStreams}/${status.maxStreams} streams`;
+                        } else {
+                            statusText.textContent = `${status.maxStreams}/${status.maxStreams} (full)`;
+                        }
+                    }
+                });
+                
+                const liveCount = document.getElementById('liveStreamCount');
+                if (liveCount) {
+                    liveCount.textContent = `(${status.activeStreams}/${status.maxStreams})`;
+                }
+            } catch (error) {
+                console.log('Could not fetch broadcast status');
+            }
+        }
+        
+        // Copy stream key to clipboard
+        function copyStreamKey() {
+            const streamKey = document.getElementById('streamKey').textContent;
+            navigator.clipboard.writeText(streamKey).then(() => {
+                if (window.showInAppNotification) {
+                    window.showInAppNotification('Copied!', 'Stream key copied to clipboard');
+                } else {
+                    alert('Stream key copied to clipboard!');
+                }
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = streamKey;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                if (window.showInAppNotification) {
+                    window.showInAppNotification('Copied!', 'Stream key copied to clipboard');
+                } else {
+                    alert('Stream key copied to clipboard!');
+                }
+            });
+        }
+        
+        // Update RTMP URL with actual server address
+        function updateRtmpUrl() {
+            const rtmpUrlEl = document.getElementById('rtmpUrl');
+            if (rtmpUrlEl) {
+                const host = window.location.hostname;
+                rtmpUrlEl.textContent = `rtmp://${host}:1935/live`;
+            }
+        }
+        
+        // Stream key is now fetched by startLiveStream() in chat.js
+        // This keeps the RTMP URL updated for display purposes
+        
+        // Refresh broadcast status periodically
+        setInterval(updateBroadcastStatus, 10000); // Every 10 seconds
+
+        // Store user data
+        let userData = null;
+        
+        // Handle login form submission
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const gender = document.getElementById('gender').value;
+            
+            if (firstName && lastName && gender) {
+                userData = {
+                    firstName,
+                    lastName,
+                    gender,
+                    fullName: `${firstName} ${lastName}`
+                };
+                
+                // Update user display name
+                document.getElementById('userDisplayName').textContent = `Welcome, ${firstName}!`;
+                const currentUserNameEl = document.getElementById('currentUserName');
+                if (currentUserNameEl) {
+                    currentUserNameEl.textContent = userData.fullName;
+                }
+                const profileNameEl = document.getElementById('profileName');
+                if (profileNameEl) {
+                    profileNameEl.textContent = userData.fullName;
+                }
+                const friendsProfileNameEl = document.getElementById('friendsProfileName');
+                if (friendsProfileNameEl) {
+                    friendsProfileNameEl.textContent = userData.fullName;
+                }
+                
+                // Set current user for chat system
+                currentUser = userData.fullName;
+                
+                // Connect to socket
+                if (typeof socket !== 'undefined') {
+                    socket.emit('join', userData.fullName);
+                }
+                
+                // Show user home
+                showSection('userHome');
+            }
+        }
+        
+        // User section navigation
+        window.showUserSection = function(sectionName) {
+            // Clear message count when viewing messages
+            if (sectionName === 'messages' && typeof clearMessageCount === 'function') {
+                clearMessageCount();
+            }
+            
+            // Load profile data when viewing settings
+            if (sectionName === 'settings') {
+                loadSettingsProfile();
+            }
+            
+            // Hide all user sections
+            document.querySelectorAll('.user-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from user nav links
+            document.querySelectorAll('.user-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Add active class to corresponding nav link - find the link that calls this function
+            document.querySelectorAll('.user-nav-link').forEach(link => {
+                if (link.onclick && link.onclick.toString().includes(`showUserSection('${sectionName}')`)) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        // Logout function
+        function logout() {
+            userData = null;
+            currentUser = '';
+            localStorage.removeItem('faltubaat_token');
+            localStorage.removeItem('faltubaat_user');
+            
+            // Disconnect from socket
+            if (typeof socket !== 'undefined') {
+                socket.disconnect();
+            }
+            
+            // Reset form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) loginForm.reset();
+            
+            // Go back to home
+            showSection('home');
+        }
+        
+        // ============================================
+        // SETTINGS FUNCTIONS
+        // ============================================
+        
+        // Change username
+        async function changeUsername(event) {
+            event.preventDefault();
+            const newUsername = document.getElementById('newUsername').value.trim();
+            const errorEl = document.getElementById('usernameChangeError');
+            const successEl = document.getElementById('usernameChangeSuccess');
+            
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            
+            if (!newUsername || newUsername.length < 3 || newUsername.length > 20) {
+                errorEl.textContent = 'Username must be 3-20 characters';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const token = localStorage.getItem('faltubaat_token');
+                const response = await fetch('/api/auth/change-username', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ newUsername })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    successEl.textContent = 'Username updated successfully!';
+                    successEl.style.display = 'block';
+                    document.getElementById('newUsername').value = '';
+                    
+                    // Update local storage and display
+                    const user = JSON.parse(localStorage.getItem('faltubaat_user') || '{}');
+                    user.username = data.username;
+                    localStorage.setItem('faltubaat_user', JSON.stringify(user));
+                    
+                    // Update display names
+                    updateUserDisplayNames(data.username);
+                } else {
+                    errorEl.textContent = data.error || 'Failed to update username';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Change password
+        async function changePassword(event) {
+            event.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            const errorEl = document.getElementById('passwordChangeError');
+            const successEl = document.getElementById('passwordChangeSuccess');
+            
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            
+            if (newPassword !== confirmNewPassword) {
+                errorEl.textContent = 'New passwords do not match';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                errorEl.textContent = 'New password must be at least 6 characters';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const token = localStorage.getItem('faltubaat_token');
+                const response = await fetch('/api/auth/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    successEl.textContent = 'Password updated successfully!';
+                    successEl.style.display = 'block';
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmNewPassword').value = '';
+                } else {
+                    errorEl.textContent = data.error || 'Failed to update password';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Delete account
+        async function deleteAccount(event) {
+            event.preventDefault();
+            const password = document.getElementById('deleteConfirmPassword').value;
+            const confirmed = document.getElementById('deleteConfirmCheck').checked;
+            const errorEl = document.getElementById('deleteAccountError');
+            
+            errorEl.style.display = 'none';
+            
+            if (!confirmed) {
+                errorEl.textContent = 'Please confirm you understand this action is permanent';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (!confirm('Are you absolutely sure you want to delete your account? This cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const token = localStorage.getItem('faltubaat_token');
+                const response = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Your account has been deleted. Goodbye!');
+                    logout();
+                } else {
+                    errorEl.textContent = data.error || 'Failed to delete account';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Update profile (first name, last name, about)
+        async function updateProfile(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('settingsFirstName').value.trim();
+            const lastName = document.getElementById('settingsLastName').value.trim();
+            const about = document.getElementById('settingsAbout').value.trim();
+            const errorEl = document.getElementById('profileUpdateError');
+            const successEl = document.getElementById('profileUpdateSuccess');
+            
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            
+            try {
+                const token = localStorage.getItem('faltubaat_token');
+                
+                // Check if token exists
+                if (!token) {
+                    errorEl.textContent = 'Session expired. Please log in again.';
+                    errorEl.style.display = 'block';
+                    setTimeout(() => logout(), 2000);
+                    return;
+                }
+                
+                const response = await fetch('/api/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ firstName, lastName, about })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    successEl.textContent = 'Profile updated successfully!';
+                    successEl.style.display = 'block';
+                    
+                    // Update local storage
+                    const user = JSON.parse(localStorage.getItem('faltubaat_user') || '{}');
+                    user.firstName = firstName;
+                    user.lastName = lastName;
+                    user.about = about;
+                    localStorage.setItem('faltubaat_user', JSON.stringify(user));
+                } else if (response.status === 401 || response.status === 403) {
+                    // Token expired or invalid - redirect to login
+                    errorEl.textContent = 'Session expired. Please log in again.';
+                    errorEl.style.display = 'block';
+                    setTimeout(() => logout(), 2000);
+                } else {
+                    errorEl.textContent = data.error || 'Failed to update profile';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Load profile data into settings form
+        function loadSettingsProfile() {
+            const user = JSON.parse(localStorage.getItem('faltubaat_user') || '{}');
+            
+            // Populate profile fields
+            const firstNameEl = document.getElementById('settingsFirstName');
+            const lastNameEl = document.getElementById('settingsLastName');
+            const aboutEl = document.getElementById('settingsAbout');
+            
+            if (firstNameEl && user.firstName) firstNameEl.value = user.firstName;
+            if (lastNameEl && user.lastName) lastNameEl.value = user.lastName;
+            if (aboutEl && user.about) aboutEl.value = user.about;
+        }
+        
+        // Helper to update display names (called when username changes)
+        function updateUserDisplayNames(username) {
+            // Get user data for first/last name
+            const user = JSON.parse(localStorage.getItem('faltubaat_user') || '{}');
+            const firstName = user.firstName || username;
+            const lastName = user.lastName || '';
+            const fullName = lastName ? `${firstName} ${lastName}` : firstName;
+            
+            // Update header
+            const userDisplayName = document.getElementById('userDisplayName');
+            if (userDisplayName) {
+                userDisplayName.textContent = `Welcome, ${fullName}!`;
+            }
+            
+            // Update sidebar first names
+            const sidebarFirstNames = ['profileFirstName', 'friendsProfileFirstName'];
+            sidebarFirstNames.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = firstName;
+            });
+            
+            // Update sidebar usernames
+            const sidebarUsernames = ['profileUsername', 'friendsProfileUsername'];
+            sidebarUsernames.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = `@${username}`;
+            });
+        }
+        
+        // Store conversations
+        let conversations = new Map();
+        let activeConversation = null;
+        
+        // Start private conversation from inbox
+        function startPrivateConversation(username, socketId) {
+            const conversationId = `${Math.min(socket.id, socketId)}-${Math.max(socket.id, socketId)}`;
+            
+            if (!conversations.has(conversationId)) {
+                conversations.set(conversationId, {
+                    id: conversationId,
+                    username: username,
+                    socketId: socketId,
+                    messages: []
+                });
+                updateConversationsList();
+            }
+            
+            openConversation(conversationId);
+        }
+        
+        // Open conversation in inbox
+        function openConversation(conversationId) {
+            activeConversation = conversationId;
+            const conversation = conversations.get(conversationId);
+            
+            if (!conversation) return;
+            
+            // Update conversation view with complete structure (XSS-safe)
+            const conversationView = document.getElementById('conversationView');
+            conversationView.innerHTML = '';
+            
+            // Create header
+            const header = document.createElement('div');
+            header.className = 'conversation-header';
+            const h3 = document.createElement('h3');
+            h3.textContent = conversation.username;
+            const videoBtn = document.createElement('button');
+            videoBtn.className = 'video-call-btn';
+            videoBtn.textContent = '📹 Video Call';
+            videoBtn.onclick = function() { startVideoCallWithUser(conversation.socketId); };
+            header.appendChild(h3);
+            header.appendChild(videoBtn);
+            
+            // Create messages container
+            const messagesDiv = document.createElement('div');
+            messagesDiv.className = 'conversation-messages';
+            messagesDiv.id = 'conversationMessages';
+            
+            conversation.messages.forEach(msg => {
+                const msgEl = document.createElement('div');
+                msgEl.className = 'message' + (msg.isOwn ? ' own' : '');
+                const sender = document.createElement('strong');
+                sender.textContent = msg.senderName + ':';
+                const msgText = document.createTextNode(' ' + msg.message);
+                const timestamp = document.createElement('div');
+                timestamp.style.cssText = 'font-size: 0.8em; opacity: 0.7; margin-top: 5px;';
+                timestamp.textContent = msg.timestamp;
+                msgEl.appendChild(sender);
+                msgEl.appendChild(msgText);
+                msgEl.appendChild(timestamp);
+                messagesDiv.appendChild(msgEl);
+            });
+            
+            // Create input area
+            const inputArea = document.createElement('div');
+            inputArea.className = 'conversation-input';
+            const inputEl = document.createElement('input');
+            inputEl.type = 'text';
+            inputEl.id = 'conversationInput';
+            inputEl.placeholder = 'Type a message...';
+            inputEl.onkeypress = function(e) { handleConversationKeyPress(e); };
+            const sendBtn = document.createElement('button');
+            sendBtn.textContent = 'Send';
+            sendBtn.onclick = function() { sendConversationMessage(); };
+            inputArea.appendChild(inputEl);
+            inputArea.appendChild(sendBtn);
+            
+            conversationView.appendChild(header);
+            conversationView.appendChild(messagesDiv);
+            conversationView.appendChild(inputArea);
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                const msgDiv = document.getElementById('conversationMessages');
+                if (msgDiv) {
+                    msgDiv.scrollTop = msgDiv.scrollHeight;
+                }
+            }, 10);
+            
+            // Update active conversation in list
+            document.querySelectorAll('.conversation-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-conversation="${conversationId}"]`)?.classList.add('active');
+        }
+        
+        // Update conversations list (XSS-safe)
+        function updateConversationsList() {
+            const conversationsList = document.getElementById('conversationsList');
+            
+            if (conversations.size === 0) {
+                conversationsList.innerHTML = '<div class="no-conversations">No conversations yet</div>';
+                return;
+            }
+            
+            conversationsList.innerHTML = '';
+            
+            Array.from(conversations.values()).forEach(conv => {
+                const item = document.createElement('div');
+                item.className = 'conversation-item';
+                item.dataset.conversation = conv.id;
+                item.onclick = function() { openConversation(conv.id); };
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'friend-avatar';
+                avatar.textContent = '👤';
+                
+                const infoDiv = document.createElement('div');
+                
+                const nameDiv = document.createElement('div');
+                nameDiv.style.fontWeight = 'bold';
+                nameDiv.textContent = conv.username;
+                
+                const previewDiv = document.createElement('div');
+                previewDiv.style.cssText = 'font-size: 0.9em; opacity: 0.7;';
+                previewDiv.textContent = conv.messages.length > 0 
+                    ? conv.messages[conv.messages.length - 1].message.substring(0, 30) + '...' 
+                    : 'No messages';
+                
+                infoDiv.appendChild(nameDiv);
+                infoDiv.appendChild(previewDiv);
+                item.appendChild(avatar);
+                item.appendChild(infoDiv);
+                conversationsList.appendChild(item);
+            });
+        }
+        
+        // Send message in conversation
+        function sendConversationMessage() {
+            const input = document.getElementById('conversationInput');
+            const message = input.value.trim();
+            
+            if (message && activeConversation) {
+                const conversation = conversations.get(activeConversation);
+                const messageData = {
+                    senderName: currentUser,
+                    message: message,
+                    timestamp: new Date().toLocaleTimeString(),
+                    isOwn: true
+                };
+                
+                // Add to conversation
+                conversation.messages.push(messageData);
+                
+                // Send via socket
+                if (typeof socket !== 'undefined') {
+                    socket.emit('private-message', {
+                        senderId: socket.id,
+                        receiverId: conversation.socketId,
+                        senderName: currentUser,
+                        message: message
+                    });
+                }
+                
+                // Refresh conversation view
+                openConversation(activeConversation);
+                updateConversationsList();
+                
+                input.value = '';
+            }
+        }
+        
+        // Handle conversation input keypress
+        function handleConversationKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendConversationMessage();
+            }
+        }
+        
+        // Start video call with specific user
+        function startVideoCallWithUser(socketId) {
+            currentChat = { socketId: socketId, type: 'private' };
+            startVideoCall();
+        }
+        
+        // Update dashboard stats
+        function updateDashboardStats() {
+            if (typeof currentLiveStreams !== 'undefined') {
+                document.getElementById('liveStreams').textContent = currentLiveStreams.length;
+            }
+        }
+        
+        // Handle new messages
+        window.handleNewMessage = function(data) {
+            const conversationId = `${Math.min(socket.id, data.senderId)}-${Math.max(socket.id, data.senderId)}`;
+            
+            if (!conversations.has(conversationId)) {
+                conversations.set(conversationId, {
+                    id: conversationId,
+                    username: data.senderName,
+                    socketId: data.senderId,
+                    messages: []
+                });
+            }
+            
+            const messageData = {
+                senderName: data.senderName,
+                message: data.message,
+                timestamp: data.timestamp,
+                isOwn: false
+            };
+            
+            conversations.get(conversationId).messages.push(messageData);
+            updateConversationsList();
+            
+            // If this conversation is currently open, add message to view (XSS-safe)
+            if (activeConversation === conversationId) {
+                const messagesContainer = document.getElementById('conversationMessages');
+                if (messagesContainer) {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = 'message';
+                    
+                    const sender = document.createElement('strong');
+                    sender.textContent = messageData.senderName + ':';
+                    const msgText = document.createTextNode(' ' + messageData.message);
+                    const timestamp = document.createElement('div');
+                    timestamp.style.cssText = 'font-size: 0.8em; opacity: 0.7; margin-top: 5px;';
+                    timestamp.textContent = messageData.timestamp;
+                    
+                    messageEl.appendChild(sender);
+                    messageEl.appendChild(msgText);
+                    messageEl.appendChild(timestamp);
+                    messagesContainer.appendChild(messageEl);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }
+        };
+        
+        // Navigation function
+        window.showSection = function(sectionName) {
+            // Check if leaving streamer dashboard and stop streaming
+            if (document.getElementById('streamerDashboard').classList.contains('active') && 
+                sectionName !== 'streamerDashboard' && 
+                window.broadcastStream) {
+                stopStreaming();
+            }
+            
+            // Check if leaving stream viewer and notify server
+            if (document.getElementById('streamViewer').classList.contains('active') && 
+                sectionName !== 'streamViewer' && 
+                typeof socket !== 'undefined' && 
+                window.currentStreamData) {
+                socket.emit('leave-stream', { streamerId: window.currentStreamData.streamerId });
+                
+                // Clean up viewer connection
+                if (window.viewerPeerConnection) {
+                    window.viewerPeerConnection.close();
+                    window.viewerPeerConnection = null;
+                }
+                
+                // Clear video element
+                const videoPlayer = document.getElementById('streamViewerVideo');
+                if (videoPlayer) {
+                    videoPlayer.srcObject = null;
+                }
+            }
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Hide/show main navbar based on section
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('footer');
+            if (sectionName === 'userHome' || sectionName === 'streamViewer' || sectionName === 'streamerDashboard') {
+                navbar.style.display = 'none';
+                footer.style.display = 'none';
+                
+                // Update broadcast status when entering user home
+                if (sectionName === 'userHome') {
+                    updateBroadcastStatus();
+                }
+                
+                // Update RTMP URL when entering streamer dashboard
+                if (sectionName === 'streamerDashboard') {
+                    updateRtmpUrl();
+                    // Stream key is already set by startLiveStream() in chat.js
+                }
+            } else {
+                navbar.style.display = 'flex';
+                footer.style.display = 'block';
+            }
+        };
+        
+        // Store current live streams
+        window.currentLiveStreams = [];
+        let currentStreamData = null;
+        
+        // Load and display live streams in sidebar (XSS-safe)
+        window.loadLiveStreamsInSidebar = function() {
+            const liveStreamsContainer = document.getElementById('liveStreamsList');
+            const dashboardLiveStreams = document.getElementById('dashboardLiveStreams');
+            
+            if (!window.currentLiveStreams || window.currentLiveStreams.length === 0) {
+                if (liveStreamsContainer) {
+                    liveStreamsContainer.innerHTML = `
+                        <div class="no-streams" style="text-align: center; opacity: 0.7; padding: 1rem; font-size: 0.9rem;">
+                            No live streams
+                        </div>
+                    `;
+                }
+                
+                if (dashboardLiveStreams) {
+                    dashboardLiveStreams.innerHTML = '<div class="no-streams-msg">No live streams at the moment</div>';
+                }
+            } else {
+                // Render sidebar streams safely
+                if (liveStreamsContainer) {
+                    liveStreamsContainer.innerHTML = '';
+                    window.currentLiveStreams.forEach(stream => {
+                        const item = document.createElement('div');
+                        item.className = 'stream-item';
+                        item.onclick = function() { joinLiveStream(stream.streamerId, stream.streamerName, stream.title); };
+                        
+                        const indicator = document.createElement('span');
+                        indicator.className = 'live-indicator';
+                        const name = document.createTextNode(stream.streamerName);
+                        
+                        item.appendChild(indicator);
+                        item.appendChild(name);
+                        liveStreamsContainer.appendChild(item);
+                    });
+                }
+                
+                // Render dashboard streams safely
+                if (dashboardLiveStreams) {
+                    dashboardLiveStreams.innerHTML = '';
+                    window.currentLiveStreams.forEach(stream => {
+                        const card = document.createElement('div');
+                        card.className = 'youtube-stream-card';
+                        card.onclick = function() { joinLiveStream(stream.streamerId, stream.streamerName, stream.title); };
+                        
+                        const thumbnail = document.createElement('div');
+                        thumbnail.className = 'stream-thumbnail';
+                        const badge = document.createElement('div');
+                        badge.className = 'live-badge';
+                        badge.textContent = 'LIVE';
+                        const preview = document.createElement('div');
+                        preview.className = 'stream-preview';
+                        preview.textContent = '📺';
+                        thumbnail.appendChild(badge);
+                        thumbnail.appendChild(preview);
+                        
+                        const details = document.createElement('div');
+                        details.className = 'stream-details';
+                        const title = document.createElement('h4');
+                        title.textContent = stream.title;
+                        const streamer = document.createElement('p');
+                        streamer.textContent = stream.streamerName;
+                        const viewerCount = document.createElement('span');
+                        viewerCount.className = 'viewer-count';
+                        viewerCount.textContent = 'Live now';
+                        details.appendChild(title);
+                        details.appendChild(streamer);
+                        details.appendChild(viewerCount);
+                        
+                        card.appendChild(thumbnail);
+                        card.appendChild(details);
+                        dashboardLiveStreams.appendChild(card);
+                    });
+                }
+            }
+        };
+        
+        // Watch live stream in viewer
+        window.watchLiveStreamInViewer = function(streamerId, streamerName) {
+            const videoPlayer = document.getElementById('streamViewerVideo');
+            
+            // Request stream from broadcaster
+            socket.emit('request-stream', {
+                streamerId: streamerId,
+                viewerId: socket.id
+            });
+            
+            console.log('Requesting stream from:', streamerId, 'as viewer:', socket.id);
+        };
+        
+        // Join a live stream
+        window.joinLiveStream = function(streamerId, streamerName, title) {
+            window.currentStreamData = { streamerId, streamerName, title };
+            document.getElementById('streamerTitle').textContent = title;
+            document.getElementById('streamMessages').innerHTML = '';
+            
+            showSection('streamViewer');
+            
+            console.log('Joining stream:', streamerId, 'Current user:', currentUser);
+            
+            // Request to watch the stream
+            if (typeof socket !== 'undefined') {
+                window.watchLiveStreamInViewer(streamerId, streamerName);
+            }
+        };
+        
+        // Watch live stream in viewer
+        function watchLiveStreamInViewer(streamerId, streamerName) {
+            const videoPlayer = document.getElementById('streamViewerVideo');
+            
+            // Request stream from broadcaster
+            socket.emit('request-stream', {
+                streamerId: streamerId,
+                viewerId: socket.id
+            });
+        }
+        
+        // Handle stream chat
+        function sendStreamChat() {
+            const input = document.getElementById('streamChatInput');
+            const message = input.value.trim();
+            
+            if (message && currentStreamData && typeof socket !== 'undefined' && currentUser) {
+                socket.emit('stream-chat-message', {
+                    streamerId: currentStreamData.streamerId,
+                    senderName: currentUser,
+                    message: message
+                });
+                
+                // Display own message
+                displayStreamMessage({
+                    senderName: currentUser,
+                    message: message,
+                    timestamp: new Date().toLocaleTimeString()
+                }, true);
+                
+                input.value = '';
+            }
+        }
+        
+        function handleStreamChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendStreamChat();
+            }
+        }
+        
+        // Send private message to streamer
+        function sendPrivateMessageToStreamer() {
+            if (window.currentStreamData) {
+                startPrivateConversation(window.currentStreamData.streamerName, window.currentStreamData.streamerId);
+                window.showSection('userHome');
+                setTimeout(() => window.showUserSection('messages'), 100);
+            }
+        }
+        
+        // Display stream chat message (XSS-safe)
+        function displayStreamMessage(data, isOwn = false) {
+            const messagesDiv = document.getElementById('streamMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message' + (isOwn ? ' own' : '');
+            
+            const sender = document.createElement('strong');
+            sender.textContent = data.senderName + ':';
+            const msgText = document.createTextNode(' ' + data.message);
+            const timestamp = document.createElement('div');
+            timestamp.style.cssText = 'font-size: 0.8em; color: #666; margin-top: 5px;';
+            timestamp.textContent = data.timestamp;
+            
+            messageDiv.appendChild(sender);
+            messageDiv.appendChild(msgText);
+            messageDiv.appendChild(timestamp);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+    <script src="security.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

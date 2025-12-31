@@ -1,0 +1,41 @@
+[Unit]
+Description=FaltuBaat Live Chat Application
+Documentation=https://github.com/your-repo/faltubaat
+After=network.target nginx.service
+Wants=nginx.service
+
+[Service]
+Type=simple
+User=faltubaat
+Group=faltubaat
+WorkingDirectory=/opt/faltubaat
+
+# Load environment from .env file
+EnvironmentFile=-/opt/faltubaat/.env
+
+ExecStart=/usr/bin/node /opt/faltubaat/server-https.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=faltubaat
+
+# Environment variables (defaults, .env overrides these)
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HTTPS_PORT=3443
+Environment=DB_PATH=/opt/faltubaat/data/faltubaat.db
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/faltubaat /var/www/html/hls /var/log/faltubaat
+PrivateTmp=true
+
+# Resource limits
+LimitNOFILE=65535
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target

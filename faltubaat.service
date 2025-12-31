@@ -1,6 +1,6 @@
 [Unit]
 Description=FaltuBaat Live Chat Application
-Documentation=https://github.com/your-repo/faltubaat
+Documentation=https://github.com/faltubaat/faltubaat
 After=network.target nginx.service
 Wants=nginx.service
 
@@ -39,3 +39,4 @@ MemoryMax=1G
 
 [Install]
 WantedBy=multi-user.target
+
